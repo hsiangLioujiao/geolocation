@@ -46,9 +46,9 @@ loc = get_geolocation()
 # st.write(f"Your coordinates are {loc}")
 
 df_loc=pd.DataFrame(loc)
-st.write(f"緯度: {df_loc.loc["latitude", "coords"]}")
-st.write(f"經度: {df_loc.loc["longitude", "coords"]}")
-st.write(f"速度: {df_loc.loc["speed", "coords"]}")
+st.write(f"緯度: {df_loc.loc['latitude', 'coords']}")
+st.write(f"經度: {df_loc.loc['longitude', 'coords']}")
+st.write(f"速度: {df_loc.loc['speed', 'coords']}")
 
 dict_loc={"time":df_loc.loc["accuracy", "timestamp"],
           "緯度":df_loc.loc["latitude", "coords"],
