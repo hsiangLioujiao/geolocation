@@ -16,6 +16,7 @@ from streamlit_js_eval import streamlit_js_eval, get_geolocation
 # import json
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 
 plt.rcParams["font.sans-serif"] = "Microsoft JhengHei"
 plt.rcParams["axes.unicode_minus"] = False
@@ -45,22 +46,31 @@ st.write(f"網頁: { streamlit_js_eval(js_expressions='window.location.origin', 
 loc = get_geolocation()
 # st.write(f"Your coordinates are {loc}")
 
-df_loc=pd.DataFrame(loc)
-st.write(f"緯度: {df_loc.loc['latitude', 'coords']}")
-st.write(f"經度: {df_loc.loc['longitude', 'coords']}")
-st.write(f"速度: {df_loc.loc['speed', 'coords']}")
+df=pd.DataFrame()
+col1, col2, col3 = st.columns(3)
+for i in range(100):
+    if loc is not None:
+        df_loc=pd.DataFrame(loc)
+        print(df_loc)
+        # st.write(f"緯度: {df_loc.loc['latitude', 'coords']}")
+        # st.write(f"經度: {df_loc.loc['longitude', 'coords']}")
+        # st.write(f"速度: {df_loc.loc['speed', 'coords']}")
+        
+        col1.metric(label="緯度", value=f"{df_loc.loc['latitude', 'coords']}")
+        col2.metric(label="經度", value=f"{df_loc.loc['longitude', 'coords']}")
+        col3.metric(label="速度", value=f"{df_loc.loc['speed', 'coords']}")
+        
+        dict_loc={"time":df_loc.loc["accuracy", "timestamp"],
+                  "緯度":df_loc.loc["latitude", "coords"],
+                  "經度":df_loc.loc["longitude", "coords"],
+                  "高度":df_loc.loc["altitude", "coords"],
+                  "heading":df_loc.loc["heading", "coords"],
+                  "速度":df_loc.loc["speed", "coords"]}
+        df=pd.concat([df, pd.DataFrame(dict_loc, index=[0])])
+    time.sleep(6)
 
-dict_loc={"time":df_loc.loc["accuracy", "timestamp"],
-          "緯度":df_loc.loc["latitude", "coords"],
-          "經度":df_loc.loc["longitude", "coords"],
-          "高度":df_loc.loc["altitude", "coords"],
-          "heading":df_loc.loc["heading", "coords"],
-          "速度":df_loc.loc["speed", "coords"]}
-df=pd.DataFrame(dict_loc, index=[0])
-
+print(df)
 st.map(df, latitude='緯度', longitude='經度')
-
-
 
 
     
