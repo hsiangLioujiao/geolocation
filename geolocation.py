@@ -123,7 +123,7 @@ st.write(f"網頁: { streamlit_js_eval(js_expressions='window.location.origin', 
 
 with st.form("my_form"):
     col1, col2 = st.columns(2)
-    n = col2.slider("紀錄時間[sec]:", 1, 600, 1)
+    n = col2.slider("紀錄時間[sec]:", 1, 30, 1)
     # Q2
     # submit_button = col1.form_submit_button(label='開始量測', on_click=test_form_callback , args=(n,))
     # st.write("test!")
